@@ -4,10 +4,16 @@ import urllib2
 import lxml.html
 import io
 import os.path
+import sys
 
 FILE_NAME = "video_list.txt"
 
 if __name__ == '__main__':
+    argvs = sys.argv
+    if (len(argvs) != 2):
+        print "Usage python {0} {url}".format(argvs[0])
+        quit()
+
     # 既存のリストを読み込み
     urls = set()
     if os.path.exists(FILE_NAME):
@@ -16,8 +22,7 @@ if __name__ == '__main__':
             urls.add(line.split(",")[0])
         file.close()
 
-    # TODO URLを引数で取得するように
-    url = "https://www.youtube.com/user/kanityousukisuki/videos"
+    url = argvs[1]
     html = urllib2.urlopen(url).read()
     root = lxml.html.fromstring(html.decode('utf-8'))
 
