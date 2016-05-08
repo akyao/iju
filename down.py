@@ -17,9 +17,12 @@ if __name__ == '__main__':
             urls.add(line.strip())
         file.close()
 
+    down_count = 0
+
     if os.path.exists(LIST_FILE):
         with io.open(LIST_FILE, 'r', encoding='utf8') as file:
             for line in file:
+                
                 url, title = line.split(",")
                 downed = url in urls
                 if not downed:
@@ -29,3 +32,9 @@ if __name__ == '__main__':
                     with io.open(RESULT_FILE, 'a') as file_result:
                         file_result.write(u"{0}\n".format(url))
                     break
+                else:
+                    down_count += 1
+    else:
+        print "no list file"
+    if down_count == 0:
+        print "no target"

@@ -8,6 +8,8 @@ import sys
 
 FILE_NAME = "video_list.txt"
 
+#for playlist page
+# python list.py https://www.youtube.com/playlist?list=PLlFxbPpuzqRIkcOGYQrdGmYwaxd3bA8vU
 if __name__ == '__main__':
     argvs = sys.argv
     if (len(argvs) != 2):
@@ -25,11 +27,15 @@ if __name__ == '__main__':
     url = argvs[1]
     html = urllib2.urlopen(url).read()
     root = lxml.html.fromstring(html.decode('utf-8'))
-
     file = io.open(FILE_NAME, 'a', encoding='utf8')
-    for a in root.cssselect(".yt-lockup-content a.yt-uix-sessionlink"):
-        href = a.attrib['href']
-        title = a.attrib['title']
-        if not href in urls:
-            file.write(u"{0},{1}\n".format(href, title))
+    for tr in root.cssselect(".pl-video"):
+        title = tr.attrib['data-title']
+        a = tr.cssselect(".pl-video-title-link")[0]
+        href = a.attrib["href"]
+        if href.startswith("/watch"):
+            if not href in urls:
+                urls.add(href)
+                file.write(u"{0},{1}\n".format(href, title))
+        else:
+            pass
     file.close()

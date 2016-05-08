@@ -2,6 +2,6 @@
 
 ## Usage
 
-* python list.py "https://www.youtube.com/results?search_query=cat"
+* python list.py https://www.youtube.com/playlist?list=PLlFxbPpuzqRIkcOGYQrdGmYwaxd3bA8vU 
 * edit video_list.txt
 * python down.py (repeat n times)
